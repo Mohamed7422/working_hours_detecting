@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Work</title>
+</head>
+<body>
+    <h1>Log Work</h1>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Task Name as Input -->
+        <label for="task_name">Task Name:</label>
+        <input type="text" name="task_name" id="task_name" placeholder="Enter task name" required>
+        <br>
+        
+        <label for="date_worked">Date Worked:</label>
+        <input type="date" name="date_worked" id="date_worked" required>
+        <br>
+        
+        <label for="hours_logged">Hours Logged:</label>
+        <input type="number" name="hours_logged" id="hours_logged" step="0.1" required>
+        <br>
+        
+        <label for="is_overtime">Overtime:</label>
+        <input type="checkbox" name="is_overtime" id="is_overtime">
+        <br>
+        
+        <label for="comments">Comments:</label>
+        <textarea name="comments" id="comments"></textarea>
+        <br>
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

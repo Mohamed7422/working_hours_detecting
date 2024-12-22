@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients</title>
+</head>
+<body>
+    <h1>Clients</h1>
+    <a href="/admin/add_client/">Add New Client</a>
+    <ul>
+        {% for client in clients %}
+            <li>
+                {{ client.client_name }}
+                <a href="{% url 'edit_client' client.client_id %}">Edit</a>
+                <a href="{% url 'delete_client' client.client_id %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

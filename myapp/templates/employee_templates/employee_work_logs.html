@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Work Logs</title>
+</head>
+<body>
+    <h1>My Work Logs</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date Worked</th>
+                <th>Task</th>
+                <th>Hours Logged</th>
+                <th>Overtime</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in work_logs %}
+                <tr>
+                    <td>{{ log.date_worked }}</td>
+                    <td>{{ log.task.task_name }}</td>
+                    <td>{{ log.hours_logged }}</td>
+                    <td>{{ log.is_overtime }}</td>
+                    <td>{{ log.comments }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
