@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from ..models import Client, Project, Task, Employee, WorkLog
+ 
+    
 
 def admin_clients(request):
     clients = Client.objects.all()

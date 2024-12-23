@@ -1,11 +1,12 @@
 from django.urls import path
 from django.http import HttpResponse
  
-def home(request):
-    return HttpResponse("<h1>Welcome to the Application</h1><p>Please navigate to /admin or /employee.</p>")
+#def home(request):
+    #return HttpResponse("<h1>Welcome to the Application</h1><p>Please navigate to /admin or /employee.</p>")
 
 
 from .views import (
+    home_page,
     admin_clients,
     admin_projects,
     admin_tasks,
@@ -20,7 +21,9 @@ from .views import (
 urlpatterns = [
 
      # Home URL (default)
-    path('', home, name='home'),  # Add this line for the root URL
+    #path('', home, name='home'),  # Add this line for the root URL
+    path('',home_page, name='home_page'),
+
     # Admin URLs
     path('admin/clients/', admin_clients, name='admin_clients'),
     path('admin/projects/', admin_projects, name='admin_projects'),

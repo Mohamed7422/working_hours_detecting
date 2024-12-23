@@ -13,4 +13,8 @@ from .employee_view import (
     employee_work_logs,
 )
 
+from .common_views import(
+    home_page
+)
+
  

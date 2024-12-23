@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ..models import WorkLog, Task, Employee
 
 def log_work(request):
+     
     if request.method == 'POST':
         # Get input values from the form
         task_name = request.POST['task_name']  # Task name entered by the employee
