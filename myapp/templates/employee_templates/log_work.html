@@ -3,35 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Work</title>
+    <title>Log Work for Task</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            margin: 20px;
+        }
+        input, select, textarea {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Log Work</h1>
-    <form method="POST">
+    <h1>Log Work for Task</h1>
+    <form action="{% url 'log_work' %}" method="post">
         {% csrf_token %}
         
-        <!-- Task Name as Input -->
-        <label for="task_name">Task Name:</label>
-        <input type="text" name="task_name" id="task_name" placeholder="Enter task name" required>
-        <br>
-        
-        <label for="date_worked">Date Worked:</label>
-        <input type="date" name="date_worked" id="date_worked" required>
-        <br>
-        
-        <label for="hours_logged">Hours Logged:</label>
-        <input type="number" name="hours_logged" id="hours_logged" step="0.1" required>
-        <br>
-        
-        <label for="is_overtime">Overtime:</label>
-        <input type="checkbox" name="is_overtime" id="is_overtime">
-        <br>
-        
+        <!-- Select Employee -->
+        <label for="employee">Select Employee:</label>
+        <select id="employee" name="employee_id" required>
+            {% for employee in employees %}
+            <option value="{{ employee.employee_id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Select or Add Project -->
+        <label for="project">Select Project:</label>
+        <select id="project" name="project_id">
+            <option value="">-- Select Project --</option>
+            {% for project in projects %}
+            <option value="{{ project.project_id }}">{{ project.project_name }}</option>
+            {% endfor %}
+        </select>
+        <label for="new-project">Or Add New Project:</label>
+        <input type="text" id="new-project" name="new_project_name" placeholder="Enter new project name">
+
+        <!-- Select or Add Task -->
+        <label for="task">Select Task:</label>
+        <select id="task" name="task_id">
+            <option value="">-- Select Task --</option>
+            {% for task in tasks %}
+            <option value="{{ task.task_id }}">{{ task.task_name }}</option>
+            {% endfor %}
+        </select>
+        <label for="new-task">Or Add New Task:</label>
+        <input type="text" id="new-task" name="new_task_name" placeholder="Enter new task name">
+
+        <!-- Date Worked -->
+        <label for="date">Date Worked:</label>
+        <input type="date" id="date" name="date_worked" required>
+
+        <!-- Hours Logged -->
+        <label for="hours">Hours Logged:</label>
+        <input type="number" id="hours" name="hours_logged" step="0.01" required>
+
+        <!-- Overtime -->
+        <label for="overtime">Is Overtime:</label>
+        <select id="overtime" name="is_overtime" required>
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+        </select>
+
+        <!-- Comments -->
         <label for="comments">Comments:</label>
-        <textarea name="comments" id="comments"></textarea>
-        <br>
-        
-        <button type="submit">Submit</button>
+        <textarea id="comments" name="comments" placeholder="Add comments here"></textarea>
+
+        <input type="submit" value="Submit">
     </form>
 </body>
 </html>

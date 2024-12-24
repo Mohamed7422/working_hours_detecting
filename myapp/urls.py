@@ -16,6 +16,9 @@ from .views import (
     delete_client,
     log_work,
     employee_work_logs,
+    add_sample_employees,
+    populate_projects,
+    populate_tasks
 )
 
 urlpatterns = [
@@ -23,6 +26,11 @@ urlpatterns = [
      # Home URL (default)
     #path('', home, name='home'),  # Add this line for the root URL
     path('',home_page, name='home_page'),
+
+    path('add-sample-employees/', add_sample_employees, name='add_sample_employees'),
+    path("populate-projects/", populate_projects, name="populate_projects"),
+    path("populate-tasks/", populate_tasks, name="populate_tasks"),
+
 
     # Admin URLs
     path('admin/clients/', admin_clients, name='admin_clients'),

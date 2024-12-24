@@ -1,36 +1,50 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from ..models import WorkLog, Task, Employee
+from ..models import WorkLog, Task, Employee, Project
+
 
 def log_work(request):
-     
     if request.method == 'POST':
-        # Get input values from the form
-        task_name = request.POST['task_name']  # Task name entered by the employee
-        date_worked = request.POST['date_worked']
-        hours_logged = request.POST['hours_logged']
-        is_overtime = 'is_overtime' in request.POST
-        comments = request.POST.get('comments', '')
+        employee_id = request.POST.get('employee_id')
+        project_id = request.POST.get('project_id')
+        new_project_name = request.POST.get('new_project_name', '').strip()
+        task_id = request.POST.get('task_id')
+        new_task_name = request.POST.get('new_task_name', '').strip()
+        date_worked = request.POST.get('date_worked')
+        hours_logged = request.POST.get('hours_logged')
+        is_overtime = request.POST.get('is_overtime') == 'true'
+        comments = request.POST.get('comments')
 
-        # Assuming employee is logged in, get the employee object (simplified example)
-        employee = Employee.objects.get(employee_id=request.user.id)
+        # Add new project if name is provided
+        if new_project_name:
+            project, created = Project.objects.get_or_create(
+                project_name=new_project_name,
+                defaults={'client_id': None}  # Set this based on your logic
+            )
+            project_id = project.project_id
 
-        # Create or get the task (optional)
-        task, created = Task.objects.get_or_create(task_name=task_name)
+        # Add new task if name is provided
+        if new_task_name:
+            task, created = Task.objects.get_or_create(
+                task_name=new_task_name,
+                defaults={'project_id': project_id}
+            )
+            task_id = task.task_id
 
-        # Create a new WorkLog entry
+        # Create a work log entry
         WorkLog.objects.create(
-            employee=employee,
-            task=task,
+            employee_id=employee_id,
+            task_id=task_id,
             date_worked=date_worked,
             hours_logged=hours_logged,
             is_overtime=is_overtime,
             comments=comments
         )
-        
-        # Redirect to employee work logs after submission
-        return redirect('employee_work_logs', employee_id=employee.employee_id)
+        return redirect('home')
 
-    return render(request, 'employee_templates/log_work.html')
+    employees = Employee.objects.all()
+    projects = Project.objects.all()
+    tasks = Task.objects.all()
+    return render(request, 'employee_templates/log_work.html', {'employees': employees, 'projects': projects, 'tasks': tasks})
 
 def employee_work_logs(request, employee_id):
     employee = get_object_or_404(Employee, employee_id=employee_id)
