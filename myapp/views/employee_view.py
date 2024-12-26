@@ -2,6 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ..models import WorkLog, Task, Employee, Project
 
 
+from django.http import JsonResponse
+ 
+
+def get_tasks_by_project(request):
+    project_id = request.GET.get('project_id')  # Get the project ID from the query parameter
+    if project_id:
+        # Query tasks related to the project
+        tasks = Task.objects.filter(project_id=project_id).values('task_id', 'task_name')
+        return JsonResponse(list(tasks), safe=False)  # Return the tasks as JSON
+    return JsonResponse({'error': 'Invalid project ID or no project selected'}, status=400)
+
+
+
 def log_work(request):
     if request.method == 'POST':
         employee_id = request.POST.get('employee_id')

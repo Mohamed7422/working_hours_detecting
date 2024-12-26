@@ -16,6 +16,7 @@ from .views import (
     delete_client,
     log_work,
     employee_work_logs,
+    get_tasks_by_project,
     add_sample_employees,
     populate_projects,
     populate_tasks
@@ -44,4 +45,6 @@ urlpatterns = [
     # Employee URLs
     path('employee/log_work/', log_work, name='log_work'),
     path('employee/work_logs/<str:employee_id>/', employee_work_logs, name='employee_work_logs'),
+    path('employee/get_tasks/', get_tasks_by_project, name='get_tasks_by_project'),
+
 ]
