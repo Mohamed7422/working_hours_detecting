@@ -12,6 +12,9 @@ from .employee_view import (
     log_work,
     employee_work_logs,
     get_tasks_by_project,
+    add_task,
+    submitEntries,
+    get_total_hours,
 )
 
 from .common_views import(

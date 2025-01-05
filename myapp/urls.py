@@ -17,6 +17,9 @@ from .views import (
     log_work,
     employee_work_logs,
     get_tasks_by_project,
+    add_task,
+    submitEntries,
+    get_total_hours,
     add_sample_employees,
     populate_projects,
     populate_tasks
@@ -46,5 +49,9 @@ urlpatterns = [
     path('employee/log_work/', log_work, name='log_work'),
     path('employee/work_logs/<str:employee_id>/', employee_work_logs, name='employee_work_logs'),
     path('employee/get_tasks/', get_tasks_by_project, name='get_tasks_by_project'),
+    path('employee/add_task/', add_task, name='add_task'),
+    path('employee/submit_entries/',submitEntries,name= 'submitEntries'),
+    path('employee/get_total_hours/', get_total_hours, name='get_total_hours'),
+
 
 ]

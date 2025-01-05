@@ -9,8 +9,7 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
-    
-    from django.db import models
+
 
 class Client(models.Model):
     client_id = models.CharField(max_length=10, primary_key=True)

@@ -3,49 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Hours Tracker</title>
+    <title>Squad Check-In</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #3E1A76;
+            font-family: Arial, sans-serif;
         }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            font-size: 24px;
+        .checkin-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        form {
-            margin-top: 50px;
+        .checkin-container h1 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #4E2A84;
+            text-align: center;
         }
-        input[type="text"] {
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .form-group input[type="text"] {
+            width: 100%;
             padding: 10px;
-            font-size: 16px;
-            margin-right: 10px;
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            font-size: 14px;
         }
-        input[type="submit"] {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
+        .checkin-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4E2A84;
             color: white;
             border: none;
+            border-radius: 5px;
+            font-size: 14px;
             cursor: pointer;
+            margin-top: 10px;
         }
-        input[type="submit"]:hover {
-            background-color: #45a049;
+        .checkin-container input[type="submit"]:hover {
+            background-color: #3E1A76;
+        }
+        .checkin-container img {
+            width: 60px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <header>
-        Welcome to the Task Hours Tracker System
-    </header>
-    <form action="{% url 'log_work' %}" method="get">
-        <label for="employee-id">Enter Employee ID:</label>
-        <input type="text" id="employee-id" name="employee_id" required>
-        <input type="submit" value="Enter">
-    </form>
+    {% load static %}
+    <div class="checkin-container">
+        <img src="{% static 'logos/squadimg.png' %}" alt="Squad Logo">
+        <h1>Squad Check-In</h1>
+        <form action="{% url 'log_work' %}" method="get">
+            <div class="form-group">
+                <input type="text" id="member-id" name="member-id" placeholder="Enter your member ID" required>
+            </div>
+            <input type="submit" value="Check In">
+        </form>
+    </div>
 </body>
 </html>

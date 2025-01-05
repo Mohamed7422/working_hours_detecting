@@ -6,8 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Work Logger Squad</title>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-        
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+               
        <style>
             :root {
                 --primary-purple: #2E1A47;
@@ -225,6 +225,7 @@
     </head>
 
 <body>
+    
       <!-- Hero Section -->
       <div class="hero-section">
         <div class="hero-content">
@@ -284,11 +285,12 @@
                         <th>Task</th>
                         <th>Hours</th>
                         <th>Comments</th>
-                        <th>Overtime</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+
+                </tbody>
             </table>
 
             <div class="hours-status">
@@ -308,7 +310,10 @@
         </div>
     </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'js/utils/alerts.js' %}"></script>
 <script src="{% static 'js/tasks.js' %}"></script>
+
 
 </body>
 </html>
