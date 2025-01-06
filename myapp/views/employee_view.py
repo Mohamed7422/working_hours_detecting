@@ -18,46 +18,20 @@ def get_tasks_by_project(request):
 
 
 
-def log_work(request):
-    employee_id = request.GET.get("member-id")
- 
+def log_work(request,employee_id):
+    
+    #employee_id = request.GET.get("member-id")
+     # Fetch the employee object or return 404 if not found
+    employee = get_object_or_404(Employee, employee_id=employee_id)
+
     request.session["employee_id"] = employee_id
     print("Emp ", employee_id)    
-    '''if request.method == 'POST':
-        employee_id = request.POST.get('employee_id')
-        project_id = request.POST.get('project_id')
-        new_project_name = request.POST.get('new_project_name', '').strip()
-        task_id = request.POST.get('task_id')
-        new_task_name = request.POST.get('new_task_name', '').strip()
-        date_worked = request.POST.get('date_worked')
-        hours_logged = request.POST.get('hours_logged')
-        is_overtime = request.POST.get('is_overtime') == 'true'
-        comments = request.POST.get('comments')
-
-        # Add new project if name is provided
-        if new_project_name:
-            project, created = Project.objects.get_or_create(
-                project_name=new_project_name,
-                defaults={'client_id': None}  # Set this based on your logic
-            )
-            project_id = project.project_id
-
-        # Add new task if name is provided
-        if new_task_name:
-            task, created = Task.objects.get_or_create(
-                task_name=new_task_name,
-                defaults={'project_id': project_id}
-            )
-            task_id = task.task_id
-
-        # Create a work log entry
-       
-        return redirect('home')'''
+   
 
     employees = Employee.objects.all()
     projects = Project.objects.all()
     tasks = Task.objects.all()
-    return render(request, 'employee_templates/log_work.html', {'employees': employees, 'projects': projects, 'tasks': tasks})
+    return render(request, 'employee_templates/log_work.html', {"employee": employee, 'projects': projects, 'tasks': tasks})
   
 
 
@@ -286,3 +260,33 @@ def get_total_hours(request):
     employees = Employee.objects.all()
     projects = Project.objects.all()
     tasks = Task.objects.all() '''
+''' for log_work func: if request.method == 'POST':
+        employee_id = request.POST.get('employee_id')
+        project_id = request.POST.get('project_id')
+        new_project_name = request.POST.get('new_project_name', '').strip()
+        task_id = request.POST.get('task_id')
+        new_task_name = request.POST.get('new_task_name', '').strip()
+        date_worked = request.POST.get('date_worked')
+        hours_logged = request.POST.get('hours_logged')
+        is_overtime = request.POST.get('is_overtime') == 'true'
+        comments = request.POST.get('comments')
+
+        # Add new project if name is provided
+        if new_project_name:
+            project, created = Project.objects.get_or_create(
+                project_name=new_project_name,
+                defaults={'client_id': None}  # Set this based on your logic
+            )
+            project_id = project.project_id
+
+        # Add new task if name is provided
+        if new_task_name:
+            task, created = Task.objects.get_or_create(
+                task_name=new_task_name,
+                defaults={'project_id': project_id}
+            )
+            task_id = task.task_id
+
+        # Create a work log entry
+       
+        return redirect('home')'''

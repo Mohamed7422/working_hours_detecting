@@ -7,6 +7,7 @@ from django.http import HttpResponse
 
 from .views import (
     home_page,
+    validate_employee,
     admin_clients,
     admin_projects,
     admin_tasks,
@@ -29,7 +30,9 @@ urlpatterns = [
 
      # Home URL (default)
     #path('', home, name='home'),  # Add this line for the root URL
+
     path('',home_page, name='home_page'),
+    path('validate_employee/',validate_employee, name='validate_employee'),
 
     path('add-sample-employees/', add_sample_employees, name='add_sample_employees'),
     path("populate-projects/", populate_projects, name="populate_projects"),
@@ -46,7 +49,7 @@ urlpatterns = [
     path('admin/delete_client/<str:client_id>/', delete_client, name='delete_client'),
 
     # Employee URLs
-    path('employee/log_work/', log_work, name='log_work'),
+    path('employee/log_work/<str:employee_id>/', log_work, name='log_work'),
     path('employee/work_logs/<str:employee_id>/', employee_work_logs, name='employee_work_logs'),
     path('employee/get_tasks/', get_tasks_by_project, name='get_tasks_by_project'),
     path('employee/add_task/', add_task, name='add_task'),

@@ -41,8 +41,40 @@
     draggable: true
   });
  }
+
+ function showErrorAlert(message){
+  Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: message,
+  });
+ }
+
+ function showExceedingHoursAlert(message){
+  Swal.fire({
+    icon: "warning",
+    title: message,
+    showClass: {
+      popup: `
+        animate__animated
+        animate__fadeInUp
+        animate__faster
+      `
+    },
+    hideClass: {
+      popup: `
+        animate__animated
+        animate__fadeOutDown
+        animate__faster
+      `
+    },
+    timer: 3000
+  });
+ }
 // Attach the function to the global window object
 window.showAlert = showAlert;
 window.showSuccessAlert = showSuccessAlert;
+window.showErrorAlert = showErrorAlert;
+window.showExceedingHoursAlert = showExceedingHoursAlert;
 
 

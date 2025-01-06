@@ -176,7 +176,8 @@ async function submitEntries() {
 
     //makesure the date worked is exist
     if(!date_worked){
-        alert("Date is required for all tasks.")
+        //alert("Date is required for all tasks.")
+        showErrorAlert("Date is required for all tasks.");
         return;
     }
 
@@ -199,7 +200,8 @@ async function submitEntries() {
         
         //check the task id if it's already added for the specific date
         if(addedTasksByDate[date_worked].has(taskId)){
-            alert(`Duplicate task detected for the same day: Task ID ${taskId}. This task will be skipped.`);
+            //alert(`Duplicate task detected for the same day: Task ID ${taskId}. This task will be skipped.`);
+            showErrorAlert(`Duplicate task detected for the same day: Task ID ${taskId}. This task will be skipped.`);
             return;
         }
 
@@ -229,9 +231,11 @@ async function submitEntries() {
                 `Warning: Adding task ID ${taskId} will exceed the 8-hour limit for ${date_worked}.`
             );
             //console.log("Hours: ", hoursLoggedByDate[date_worked] + parseFloat(hours_logged))
-            alert(
-                `Cannot add task name ${taskId}. Adding this task would exceed the 8-hour limit for ${date_worked}.`
-            );
+            // alert(`Cannot add task name ${taskId}. Adding this task would exceed the 8-hour limit for ${date_worked}.`);
+            
+
+             /**To Do */
+            showExceedingHoursAlert(`Be Carful: You are going to exceed the 8-hour standard for ${date_worked}.`);
             
         }
         
@@ -239,7 +243,8 @@ async function submitEntries() {
 
        // Check if entries array is empty before sending the request
        if (entries.length === 0) {
-        alert("No tasks found to add.");
+        //alert("No tasks found to add.");
+        showErrorAlert("No tasks found to add.");
         console.error("No entries to submit.");
         return; // Prevent further execution
     }
@@ -282,7 +287,8 @@ async function submitEntries() {
 
 
         } else {
-            alert(`Error submitting entries: ${data.error || "Unknown error occurred. Please try again."}`);
+            //alert(`Error submitting entries: ${data.error || "Unknown error occurred. Please try again."}`);
+            showErrorAlert(`Error submitting entries: ${data.error || "Unknown error occurred. Please try again."}`);
         }
     })
     .catch((error) => {
@@ -290,11 +296,14 @@ async function submitEntries() {
 
             // Handle specific backend error messages
             if (error.error === "No entries provided.") {
-                alert("No entries provided. Please add tasks before submitting.");
+                //alert("No entries provided. Please add tasks before submitting.");
+                showErrorAlert("No entries provided. Please add tasks before submitting.");
             } else if (error.error) {
-                alert(`Error: ${error.error}`);
+                //alert(`Error: ${error.error}`);
+                showErrorAlert(`Error: ${error.error}`);
             } else {
-                alert("Something went wrong while submitting your entries. Please try again later.");
+                //alert("Something went wrong while submitting your entries. Please try again later.");
+                showErrorAlert("Something went wrong while submitting your entries. Please try again later.");
             }
     });
  
