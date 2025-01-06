@@ -1,4 +1,4 @@
-asgiref==3.8.1
+asgiref== 3.8.1
 Django==5.1.4
 django-unfold==0.43.0
 sqlparse==0.5.3
