@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'testDB.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'working_hours_detecting.settings')
 
 application = get_asgi_application()
