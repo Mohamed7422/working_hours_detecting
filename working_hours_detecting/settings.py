@@ -13,9 +13,16 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from decouple import Config, RepositoryEnv
 
 
- 
+
+# Try loading .env.local if it exists (for local development)
+if os.path.exists(".env.local"):
+    config = Config(RepositoryEnv(".env.local"))
+else:
+    # Fall back to system environment variables (e.g., on Vercel)
+    config = Config(os.environ)  # Use environment variables for production (e.g., Vercel)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,13 +32,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-chmdgtma#mlm(g&c1o5uppe@!%@yj%d=75go+1@kgt-%x9u!_='
+#SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key")
+SECRET_KEY = config('SECRET_KEY', default='fallback-secret-key')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG',default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+if DEBUG:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+else:
+    ALLOWED_HOSTS = ['.vercel.app']
 
+
+print("DEBUG:", DEBUG)
+print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
 
 # Application definition
 
@@ -48,6 +63,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -83,11 +99,12 @@ WSGI_APPLICATION = 'working_hours_detecting.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.parse(
-        "postgresql://postgres:FaKjjOxabmZtRiIuTWubaCDQWIwqEJnh@junction.proxy.rlwy.net:13906/railway",
+        config('DATABASE_URL'),
         conn_max_age=600  # Optional: maintains persistent connections
+        
     )
 }
-
+ 
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -125,10 +142,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Directory where 'collectstatic' will place all static files for deployment
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Add the following line if you haven't already
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'myapp/static'),
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

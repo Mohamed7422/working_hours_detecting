@@ -16,3 +16,5 @@ db.sqlite3
 # OS-specific
 .DS_Store
 Thumbs.db
+.vercel
+.env*.local
