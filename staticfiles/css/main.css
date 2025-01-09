@@ -1,0 +1,230 @@
+:root {
+    --primary-purple: #2E1A47;
+    --accent-orange: #FF4D12;
+    --text-light: #FFFFFF;
+    --text-muted: #9CA3AF;
+    --surface-card: #FFFFFF;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #F3F4F6;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.hero-section {
+    background-color: var(--primary-purple);
+    padding: 4rem 2rem;
+    color: var(--text-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 2.5rem;
+    color: var(--accent-orange);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.hero-text {
+    font-size: 1.25rem;
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+.geometric-shape {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 77, 18, 0.1);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: -100px auto 0;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 3;
+}
+
+.work-logger-card {
+    background: var(--surface-card);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    color: var(--primary-purple);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary-purple);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(46, 26, 71, 0.1);
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--primary-purple);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #3D2460;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--accent-orange);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #E64410;
+    transform: translateY(-2px);
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 2rem 0;
+}
+
+th {
+    background: var(--primary-purple);
+    color: white;
+    font-weight: 500;
+    text-align: left;
+    padding: 1rem;
+    font-size: 0.9rem;
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.hours-status {
+    background: var(--primary-purple);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2rem;
+}
+
+.hours-item {
+    text-align: center;
+}
+
+.hours-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.hours-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent-orange);
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 2rem;
+    }
+
+    .geometric-shape {
+        width: 200px;
+        height: 200px;
+    }
+
+    .main-content {
+        margin-top: -50px;
+    }
+}
+
+/* Customize warning notifications */
+.alertify-notifier .ajs-message.ajs-warning {
+    background-color: #ffcc00;
+    /* Bright yellow */
+    color: #4d4d4d;
+    /* Dark text */
+    font-weight: bold;
+    border-left: 5px solid #ff9900;
+    /* Orange accent */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.alertify-notifier .ajs-message.ajs-warning .fas {
+    margin-right: 8px;
+}

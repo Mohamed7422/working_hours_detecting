@@ -235,7 +235,9 @@ async function submitEntries() {
             
 
              /**To Do */
-            showExceedingHoursAlert(`Be Carful: You are going to exceed the 8-hour standard for ${date_worked}.`);
+            //showExceedingHoursAlert(`Be Carful: You are going to exceed the 8-hour standard for ${date_worked}.`);
+            showWarningNotification(`Heads up! Logging this task will bring your total hours for ${date_worked} above the standard 8-hour limit.`);
+
             
         }
         
