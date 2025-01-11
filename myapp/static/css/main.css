@@ -228,3 +228,39 @@ td {
 .alertify-notifier .ajs-message.ajs-warning .fas {
     margin-right: 8px;
 }
+
+
+/* timeInput styling*/
+.time-input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.time-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-field {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.time-separator {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.time-input label {
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: #666;
+}

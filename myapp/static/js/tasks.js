@@ -373,24 +373,38 @@ function updateHours() {
     const tableBody = elements.tasksTable.querySelector("tbody");
 
     const rows = tableBody.querySelectorAll("tr");
-    
-    let totalHours = 0; // To track cumulative hours
+    let minHours = 8;
+    let regularHours = 0; // To track cumulative hours
     let overtimeHours = 0; // To track hours above 8
     
     // Loop through each row in the table to sum up the hours
     rows.forEach((row) => {
         const cells = row.querySelectorAll("td");
-        const hoursCell    = cells[2];
+        const hoursCell = cells[2];
          if (hoursCell) {
             const hours = parseFloat(hoursCell.textContent.trim()) || 0; // Parse hours
-            totalHours += hours; // Add to total hours
+
+            if(regularHours < minHours){
+                const remainingRegularHours = minHours - regularHours;
+
+                if(hours <= remainingRegularHours){
+                    regularHours += hours;
+                }else{
+                    regularHours += remainingRegularHours;
+                    overtimeHours += hours - remainingRegularHours;
+                }
+
+            }else{
+                overtimeHours += hours;
+            }
+             
         }
     });
     
     // Calculate overtime
-    overtimeHours = totalHours > 8 ? totalHours - 8 : 0;
+   // overtimeHours = regularHours > minHours ? regularHours - minHours : 0;
     
     // Update the DOM
-    document.getElementById("regularHours").textContent = totalHours.toFixed(1); // Show total hours
+    document.getElementById("regularHours").textContent = regularHours.toFixed(1); // Show total hours
     document.getElementById("overtimeHours").textContent = overtimeHours.toFixed(1); // Show overtime hours
 }

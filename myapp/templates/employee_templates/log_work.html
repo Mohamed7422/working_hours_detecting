@@ -59,15 +59,37 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="hoursInput">Hours:</label>
-                    <input type="number" id="hoursInput" min="0" step="1" max="24" placeholder="Enter hours" />
-                
-                </div>
+               
 
                 <div class="form-group">
-                    <label for="minutesInput">Minutes:</label>
-                    <input type="number" id="minutesInput" min="0" max="59" step="1" placeholder="Enter minutes" />
+                    <label for="timeInput">Task Duration:</label>
+                    <div class="time-input-container">
+                        <div class="time-input">
+                            <label for="hoursInput">Hours</label>
+                            <input
+                                type="number"
+                                id="hoursInput"
+                                min="0"
+                                step="1"
+                                max="24"
+                                placeholder="0"
+                                class="time-field"
+                            />
+                        </div>
+                        <span class="time-separator">:</span>
+                        <div class="time-input">
+                            <label for="minutesInput">Minutes</label>
+                            <input
+                                type="number"
+                                id="minutesInput"
+                                min="0"
+                                max="59"
+                                step="1"
+                                placeholder="0"
+                                class="time-field"
+                            />
+                        </div>
+                    </div>
                 </div>
 
             </div>
