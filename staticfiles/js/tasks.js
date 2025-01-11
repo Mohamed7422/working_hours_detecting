@@ -6,6 +6,7 @@ const elements = {
     taskSelect: document.getElementById('taskSelect'),
     dateInput: document.getElementById('dateWorked'),
     hoursInput: document.getElementById('hoursInput'),
+    minutesInput: document.getElementById('minutesInput'),
     commentsInput: document.getElementById('commentsInput'),
     tasksTable: document.getElementById('tasksTable'),
 };
@@ -57,13 +58,23 @@ function addTaskToTable(){
     const project = elements.projectSelect.options[elements.projectSelect.selectedIndex]?.text;
     const task = elements.taskSelect.options[elements.taskSelect.selectedIndex]?.text;
     const hoursInput = elements.hoursInput.value;
+    const minutesInput = elements.minutesInput.value;
     const commentsInput = elements.commentsInput.value;
 
          // Validate inputs
-    if (!dateWorked || !project || !task || !hoursInput) {
+    if (!dateWorked || !project || !task ) {
         alert("Please fill in all fields before adding an entry.");
         return;
     }
+    // Ensure either hours or minutes is provided
+    if (!hoursInput && !minutesInput) {
+        alert("Please enter at least hours or minutes.");
+        return;
+    }
+
+    //convert hours and minutes to total hours as a decimal
+    const totalHours = parseFloat(hoursInput||0) + (parseFloat(minutesInput || 0) / 60);
+    console.log("Total Hours:", totalHours.toFixed(2));
 
     // Get the table body
     const tableBody = elements.tasksTable.querySelector("tbody");
@@ -81,7 +92,7 @@ function addTaskToTable(){
     newRow.innerHTML = `
     <td>${project}</td>
     <td>${task}</td>
-    <td>${hoursInput}</td>
+    <td>${totalHours.toFixed(1)}</td>
     <td>${commentsInput}</td>
     <td><button class="btn btn-secondary" onclick="deleteRow(this)">Delete</button></td>
 `;
@@ -92,6 +103,7 @@ function addTaskToTable(){
 
     // Clear form fields
     elements.hoursInput.value = "";
+    elements.minutesInput.value = "";
     elements.commentsInput.value = "";
     elements.taskSelect.innerHTML = '<option value="">Select task</option>';
     elements.projectSelect.selectedIndex = 0;
@@ -237,7 +249,6 @@ async function submitEntries() {
              /**To Do */
             //showExceedingHoursAlert(`Be Carful: You are going to exceed the 8-hour standard for ${date_worked}.`);
             showWarningNotification(`Heads up! Logging this task will bring your total hours for ${date_worked} above the standard 8-hour limit.`);
-
             
         }
         
@@ -255,7 +266,7 @@ async function submitEntries() {
     console.log("Submitting entries:", entries);
 
 
-    //Post the data to Django
+    //Post the data to Django backend
     fetch("/employee/submit_entries/",{
         method: "POST",
         headers:{
