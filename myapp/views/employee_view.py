@@ -94,15 +94,15 @@ def submitEntries(request):
                     }, status=400)
               
               #Check for duplicate entry
-              if WorkLog.objects.filter(
-                  employee_id = employee_obj,
-                  task_id = task_id,
-                  date_worked = date_worked
-              ).exists():
-                  return JsonResponse({
-                      'success':False,
-                      'error': f"Duplicate entry detected for Task Name {task_obj} on {date_worked}."
-                  }, status = 400)
+              #if WorkLog.objects.filter(
+                #  employee_id = employee_obj,
+                 # task_id = task_id,
+                 # date_worked = date_worked
+              #).exists():
+               #   return JsonResponse({
+                  #    'success':False,
+                   #   'error': f"Duplicate entry detected for Task Name {task_obj} on {date_worked}."
+                 # }, status = 400)
               
               #Check task existence
               try:
@@ -113,13 +113,17 @@ def submitEntries(request):
                       'error': f"Task with id {task_id} does not exist."
                   }, status=400)    
 
-              WorkLog.objects.create(
+              work_log, created = WorkLog.objects.get_or_create(
                 employee = employee_obj,
                 task = task_obj,
                 date_worked =date_worked,
-                hours_logged = hours_logged,
-                comments = comments,  
+                defaults={'hours_logged': hours_logged, 'comments': comments}
               )    
+
+              if not created:
+                  work_log.hours_logged += hours_logged
+                  work_log.save()
+
           return JsonResponse({'success':True})
       except Exception as e:
            print(e)
