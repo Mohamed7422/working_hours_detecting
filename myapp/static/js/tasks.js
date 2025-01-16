@@ -172,7 +172,7 @@ function addNewTaskPrompt(){
 
 }
  
-
+ 
 //Submit All Enteries or Tasks to the database
 async function submitEntries() {
 
@@ -217,8 +217,9 @@ async function submitEntries() {
             return;
         }
 
-       
-
+        //check if the hours_logged did not exceed 8 hours then show warning with yes or no
+        //if yes then push, else nothing to do 
+        
 
         if(projectId && taskId && !isNaN(hours_logged)){
             entries.push({
@@ -253,6 +254,7 @@ async function submitEntries() {
         }
         
     });
+ 
 
        // Check if entries array is empty before sending the request
        if (entries.length === 0) {

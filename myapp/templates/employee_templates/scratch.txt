@@ -133,8 +133,7 @@
 
             </div>
 
-            <button class="submit-entries-btn" onclick="submitEntries()">
-                <i class="fas fa-paper-plane"></i>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 2rem;" onclick="submitEntries()">
                 Submit All Entries
             </button>
         </div>

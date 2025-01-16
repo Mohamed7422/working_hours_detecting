@@ -24,7 +24,8 @@ from .common_views import(
 
  
 from .sample_employees import(
-    add_sample_employees
+    add_sample_employees,
+    clickup_task_created
 )
 
 from .sample_projects import(

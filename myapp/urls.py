@@ -23,7 +23,9 @@ from .views import (
     get_total_hours,
     add_sample_employees,
     populate_projects,
-    populate_tasks
+    populate_tasks,
+    clickup_task_created
+     
 )
 
 urlpatterns = [
@@ -37,6 +39,10 @@ urlpatterns = [
     path('add-sample-employees/', add_sample_employees, name='add_sample_employees'),
     path("populate-projects/", populate_projects, name="populate_projects"),
     path("populate-tasks/", populate_tasks, name="populate_tasks"),
+    path("populate-projectcreated/", clickup_task_created, name="clickup_task_created"),
+
+
+    
 
 
     # Admin URLs
