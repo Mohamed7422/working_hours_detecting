@@ -26,7 +26,7 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
-            <h1 class="hero-title">SQUAD WORK LOGGER</h1>
+            <h1 class="hero-title">Squad Work Logger</h1>
             <div class="hero-subtitle">Log your work!</div>
         </div>
         <div class="geometric-shape"></div>
@@ -133,7 +133,8 @@
 
             </div>
 
-            <button class="btn btn-primary" style="width: 100%; margin-top: 2rem;" onclick="submitEntries()">
+            <button class="submit-entries-btn" onclick="submitEntries()">
+                <i class="fas fa-paper-plane"></i>
                 Submit All Entries
             </button>
         </div>
@@ -148,3 +149,330 @@
 </body>
 
 </html>
+
+
+------------------
+
+CSS
+
+
+:root {
+    --primary-purple: #2E1A47;
+    --accent-orange: #FF4D12;
+    --text-light: #FFFFFF;
+    --text-muted: #9CA3AF;
+    --surface-card: #FFFFFF;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #F3F4F6;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.hero-section {
+    background-color: var(--primary-purple);
+    padding: 4rem 2rem 8rem 2rem;
+    color: var(--text-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    letter-spacing: 0.02rem;
+}
+
+.hero-subtitle {
+    font-size: 2.5rem;
+    color: var(--accent-orange);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.hero-text {
+    font-size: 1.25rem;
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+.geometric-shape {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 77, 18, 0.1);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: -50px auto 0;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 3;
+}
+
+.work-logger-card {
+    background: var(--surface-card);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    color: var(--primary-purple);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary-purple);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(46, 26, 71, 0.1);
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--primary-purple);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #3D2460;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--accent-orange);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #E64410;
+    transform: translateY(-2px);
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 2rem 0;
+}
+
+th {
+    background: var(--primary-purple);
+    color: white;
+    font-weight: 500;
+    text-align: left;
+    padding: 1rem;
+    font-size: 0.9rem;
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.hours-status {
+    background: var(--primary-purple);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2rem;
+}
+
+.hours-item {
+    text-align: center;
+}
+
+.hours-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.hours-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent-orange);
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 2rem;
+    }
+
+    .geometric-shape {
+        width: 150px;
+        height: 150px;
+    }
+
+    .main-content {
+        margin-top: -30px;
+    }
+    .hero-section {
+        padding: 3rem 2rem 6rem 2rem; /* Adjusted padding for mobile */
+    }
+}
+
+/* Customize warning notifications */
+.alertify-notifier .ajs-message.ajs-warning {
+    background-color: #ffcc00;
+    /* Bright yellow */
+    color: #4d4d4d;
+    /* Dark text */
+    font-weight: bold;
+    border-left: 5px solid #ff9900;
+    /* Orange accent */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.alertify-notifier .ajs-message.ajs-warning .fas {
+    margin-right: 8px;
+}
+
+
+/* timeInput styling*/
+.time-input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.time-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-field {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.time-separator {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.time-input label {
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: #666;
+}
+
+/* Add these styles to your CSS file */
+.submit-entries-btn {
+    background: var(--primary-purple);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    max-width: fit-content;
+    width: 100%;
+    margin: 2rem auto 0;
+    border: 2px solid var(--primary-purple);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 6px rgba(46, 26, 71, 0.1);
+    position: sticky;
+    bottom: 20px;
+}
+
+.submit-entries-btn:hover {
+    background: #3D2460;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(46, 26, 71, 0.15);
+}
+
+.submit-entries-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(46, 26, 71, 0.1);
+}
+
+/* Add responsive behavior */
+@media (max-width: 768px) {
+    .submit-entries-btn {
+        max-width: 100%; /* On mobile, take full width */
+        font-size: 0.95rem; /* Slightly smaller on mobile */
+    }
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #F9FAFB;
+}
+
+tbody tr:hover {
+    background-color: #E5E7EB;
+}

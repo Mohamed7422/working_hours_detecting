@@ -10,7 +10,7 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
-
+ 
 class Client(models.Model):
     client_id = models.CharField(max_length=10, primary_key=True)
     client_name = models.CharField(max_length=100)

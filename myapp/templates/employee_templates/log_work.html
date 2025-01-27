@@ -1,37 +1,36 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work Logger Squad</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link href="https://use.typekit.net/[your-kit-code].css" rel="stylesheet"> <!-- For Proxima Nova -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajwal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <!--Main-CSS -->
+    
+    <!-- Main CSS -->
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
-
     <!-- Alertify -->
-    <!-- CSS -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
-    <!-- Default theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css" />
-    <!-- Use with Icons-->
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 </head>
-
 <body>
-
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
-            <h1 class="hero-title">SQUAD WORK LOGGER</h1>
+            <h1 class="hero-title">Squad Work Logger</h1>
             <div class="hero-subtitle">Log your work!</div>
         </div>
         <div class="geometric-shape"></div>
     </div>
-
     <!-- Main Content -->
     <div class="main-content">
         <div class="work-logger-card">
@@ -41,7 +40,6 @@
                     <label for="dateWorked">Date</label>
                     <input type="date" id="dateWorked" value="{{ current_date|date:'Y-m-d' }}">
                 </div>
-
                 <div class="form-group">
                     <label for="projectSelect">Project</label>
                     <select id="projectSelect" onchange="fetchTasks()">
@@ -51,61 +49,39 @@
                         {% endfor %}
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="taskSelect">Task</label>
                     <select id="taskSelect">
                         <option value="">Select task</option>
                     </select>
                 </div>
-
-               
-
                 <div class="form-group">
                     <label for="timeInput">Task Duration:</label>
                     <div class="time-input-container">
                         <div class="time-input">
                             <label for="hoursInput">Hours</label>
-                            <input
-                                type="number"
-                                id="hoursInput"
-                                min="0"
-                                step="1"
-                                max="24"
-                                placeholder="0"
-                                class="time-field"
-                            />
+                            <input type="number" id="hoursInput" min="0" step="1" max="24" placeholder="0" class="time-field">
                         </div>
                         <span class="time-separator">:</span>
                         <div class="time-input">
                             <label for="minutesInput">Minutes</label>
-                            <input
-                                type="number"
-                                id="minutesInput"
-                                min="0"
-                                max="59"
-                                step="1"
-                                placeholder="0"
-                                class="time-field"
-                            />
+                            <input type="number" id="minutesInput" min="0" max="59" step="1" placeholder="0" class="time-field">
                         </div>
                     </div>
                 </div>
-
             </div>
-
-            
-
             <div class="form-group">
                 <label for="commentsInput">Comments</label>
                 <input type="text" id="commentsInput" placeholder="Add your comments here...">
             </div>
-
-            <div style="display: flex; gap: 1rem;">
-                <button class="btn btn-primary" onclick="addTaskToTable()">Add Entry</button>
-                <button class="btn btn-secondary" onclick="addNewTaskPrompt()">New Task</button>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="addTaskToTable()">
+                    <i class="fas fa-plus"></i> Add Entry
+                </button>
+                <button class="btn btn-secondary" onclick="addNewTaskPrompt()">
+                    <i class="fas fa-tasks"></i> New Task
+                </button>
             </div>
-
             <table id="tasksTable">
                 <thead>
                     <tr>
@@ -116,11 +92,8 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-
-                </tbody>
+                <tbody></tbody>
             </table>
-
             <div class="hours-status">
                 <div class="hours-item">
                     <div class="hours-label">Regular Hours</div>
@@ -130,22 +103,17 @@
                     <div class="hours-label">Overtime Hours</div>
                     <div class="hours-value" id="overtimeHours">0.0</div>
                 </div>
-
             </div>
-
             <button class="submit-entries-btn" onclick="submitEntries()">
                 <i class="fas fa-paper-plane"></i>
                 Submit All Entries
             </button>
         </div>
     </div>
-
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{% static 'js/utils/alerts.js' %}"></script>
     <script src="{% static 'js/tasks.js' %}"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
-
-
 </body>
-
 </html>

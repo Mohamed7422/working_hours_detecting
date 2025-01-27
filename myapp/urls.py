@@ -24,7 +24,9 @@ from .views import (
     add_sample_employees,
     populate_projects,
     populate_tasks,
-    clickup_task_created
+    clickup_task_created,
+    clickup_task_updated,
+    update_project_client
      
 )
 
@@ -40,8 +42,8 @@ urlpatterns = [
     path("populate-projects/", populate_projects, name="populate_projects"),
     path("populate-tasks/", populate_tasks, name="populate_tasks"),
     path("populate-projectcreated/", clickup_task_created, name="clickup_task_created"),
-
-
+    path("populate-projectupdated/", clickup_task_updated, name="clickup_task_updated"),
+    path("populate-clientupdated/", update_project_client, name="update_project_client"),
     
 
 
