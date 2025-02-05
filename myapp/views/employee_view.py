@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ..models import WorkLog, Task, Employee, Project
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
-from django.db.models import Sum
+from django.db.models import Sum, Max
  
 
 def get_tasks_by_project(request):
@@ -162,7 +162,15 @@ def add_task(request):
                 return JsonResponse({"success": False, "error": "Task name cannot be blank."}, status=400)
 
             # Generate task ID
-            task_id = f"T{str(Task.objects.count() + 1).zfill(3)}"
+            #task_id = f"T{str(Task.objects.count() + 1).zfill(3)}"
+            last_task = Task.objects.aggregate(max_id=Max('task_id'))
+            last_task_id = last_task['max_id']
+
+             
+            next_id = int(last_task_id[1:])+1 #Stript T and increment
+            task_id = f"T{str(next_id).zfill(3)}"
+            
+             
             if len(task_id) > 10:
                 return JsonResponse({"success": False, "error": "Generated task ID is too long."}, status=500)
 
