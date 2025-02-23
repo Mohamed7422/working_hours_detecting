@@ -1,0 +1,99 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<h1>Admin Dashboard</h1>
+
+<!-- Load Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Pie Chart: Projects Per Client -->
+<h2>Projects Per Client</h2>
+<div style="max-width: 700px; margin: auto;">
+    <canvas id="clientPieChart"></canvas>
+</div>
+
+<!-- Bar Chart: Worklog Hours Per Task -->
+<h2>Worklog Hours Per Task</h2>
+<div style="max-width: 700px; margin: auto;">
+    <canvas id="worklogBarChart"></canvas>
+</div>
+
+<!-- Filters -->
+<h2>Worklog Filter</h2>
+<label for="employeeFilter">Select Employee:</label>
+<select id="employeeFilter">
+    <option value="all">All Employees</option>
+    {% for employee in employees %}
+    <option value="{{ employee.id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
+    {% endfor %}
+</select>
+
+<label for="projectFilter">Select Project:</label>
+<select id="projectFilter">
+    <option value="all">All Projects</option>
+    {% for project in projects %}
+    <option value="{{ project.id }}">{{ project.project_name }}</option>
+    {% endfor %}
+</select>
+
+<!-- JavaScript for Charts -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var ctx1 = document.getElementById('clientPieChart').getContext('2d');
+    var clientChart = new Chart(ctx1, {
+        type: 'pie',
+        data: {
+            labels: {{ client_names|safe }},
+            datasets: [{
+                data: {{ project_counts|safe }},
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#C9CBFF']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    var ctx2 = document.getElementById('worklogBarChart').getContext('2d');
+    var worklogChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: {{ task_names|safe }},
+            datasets: [{
+                label: 'Total Hours Worked',
+                data: {{ work_hours|safe }},
+                backgroundColor: '#36A2EB'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    // Filter Logic
+    document.getElementById('employeeFilter').addEventListener('change', function() {
+        updateCharts();
+    });
+
+    document.getElementById('projectFilter').addEventListener('change', function() {
+        updateCharts();
+    });
+
+    function updateCharts() {
+        var selectedEmployee = document.getElementById('employeeFilter').value;
+        var selectedProject = document.getElementById('projectFilter').value;
+
+        fetch(`/charts/worklog/?employee=${selectedEmployee}&project=${selectedProject}`)
+        .then(response => response.json())
+        .then(data => {
+            worklogChart.data.labels = data.labels;
+            worklogChart.data.datasets[0].data = data.hours;
+            worklogChart.update();
+        });
+    }
+});
+</script>
+
+{% endblock %}

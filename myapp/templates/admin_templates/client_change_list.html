@@ -1,0 +1,55 @@
+{% extends "admin/change_list.html" %}
+{% block extrahead %}
+  {{ block.super }}
+  <!-- Include Chart.js from a CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+{% block content %}
+  {{ block.super }}
+  <div style="max-width: 700px; margin: 20px auto; height: 400px;">
+      <canvas id="clientChart"></canvas>
+  </div>
+{% endblock %}
+{% block footer %}
+  {{ block.super }}
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var ctx = document.getElementById('clientChart').getContext('2d');
+      var clientNames = {{ client_names|safe }};
+      var projectCounts = {{ project_counts|safe }};
+
+      var chart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+              labels: clientNames,
+              datasets: [{
+                  data: projectCounts,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.6)',
+                      'rgba(54, 162, 235, 0.6)',
+                      'rgba(255, 206, 86, 0.6)',
+                      'rgba(75, 192, 192, 0.6)',
+                      'rgba(153, 102, 255, 0.6)'
+                  ]
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                  legend: {
+                      position: 'bottom'
+                  },
+                  tooltip: {
+                      callbacks: {
+                          label: function(context) {
+                              return context.label + ": " + context.parsed;
+                          }
+                      }
+                  }
+              }
+          }
+      });
+  });
+  </script>
+{% endblock %}

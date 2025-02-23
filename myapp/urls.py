@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from .views import (
     home_page,
     validate_employee,
+    admin_dashboard,
     admin_clients,
     admin_projects,
     admin_tasks,
@@ -48,6 +49,7 @@ urlpatterns = [
 
 
     # Admin URLs
+    path("customizeddashboard/", admin_dashboard, name="admin_dashboard"),
     path('admin/clients/', admin_clients, name='admin_clients'),
     path('admin/projects/', admin_projects, name='admin_projects'),
     path('admin/tasks/', admin_tasks, name='admin_tasks'),

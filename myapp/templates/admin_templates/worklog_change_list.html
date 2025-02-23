@@ -1,0 +1,49 @@
+{% extends "admin/change_list.html" %}
+{% block extrahead %}
+  {{ block.super }}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+{% block content %}
+  {{ block.super }}
+  <div style="width: 80%; margin: 20px auto;">
+      <canvas id="worklogChart"></canvas>
+  </div>
+{% endblock %}
+{% block footer %}
+  {{ block.super }}
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var ctx = document.getElementById('worklogChart').getContext('2d');
+      var tasks = {{ chart_tasks|safe }};
+      var totalTime = {{ chart_total_time|safe }};
+      var chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: tasks,
+              datasets: [{
+                  label: 'Total Hours Logged',
+                  data: totalTime,
+                  backgroundColor: 'rgba(54, 162, 235, 0.6)'
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Time (hours)'
+                      }
+                  },
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Tasks'
+                      }
+                  }
+              }
+          }
+      });
+  });
+  </script>
+{% endblock %}

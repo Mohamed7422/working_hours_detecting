@@ -1,0 +1,43 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Dashboard</h1>
+<div style="width: 50%; margin: 20px auto;">
+    <canvas id="clientChart"></canvas>
+</div>
+<div style="width: 50%; margin: 20px auto;">
+    <canvas id="projectChart"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var clientCtx = document.getElementById('clientChart').getContext('2d');
+    var clientNames = {{ client_data|map(attribute='client_name')|list|safe }};
+    var projectCounts = {{ client_data|map(attribute='project_count')|list|safe }};
+    new Chart(clientCtx, {
+        type: 'pie',
+        data: {
+            labels: clientNames,
+            datasets: [{
+                data: projectCounts,
+                backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)']
+            }]
+        }
+    });
+
+    var projectCtx = document.getElementById('projectChart').getContext('2d');
+    var projectNames = {{ project_data|map(attribute='project_name')|list|safe }};
+    var totalTimes = {{ project_data|map(attribute='total_time')|list|safe }};
+    new Chart(projectCtx, {
+        type: 'bar',
+        data: {
+            labels: projectNames,
+            datasets: [{
+                label: 'Total Hours',
+                data: totalTimes,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)'
+            }]
+        }
+    });
+});
+</script>
+{% endblock %}

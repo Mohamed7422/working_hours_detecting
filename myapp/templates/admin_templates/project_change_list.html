@@ -1,0 +1,49 @@
+{% extends "admin/change_list.html" %}
+{% block extrahead %}
+  {{ block.super }}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+{% block content %}
+  {{ block.super }}
+  <div style="width: 80%; margin: 20px auto;">
+      <canvas id="projectChart"></canvas>
+  </div>
+{% endblock %}
+{% block footer %}
+  {{ block.super }}
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var ctx = document.getElementById('projectChart').getContext('2d');
+      var projectNames = {{ project_names|safe }};
+      var totalHours = {{ total_hours|safe }};
+      var chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: projectNames,
+              datasets: [{
+                  label: 'Total Hours (Project Timeframe)',
+                  data: totalHours,
+                  backgroundColor: 'rgba(153, 102, 255, 0.6)'
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Hours'
+                      }
+                  },
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Projects'
+                      }
+                  }
+              }
+          }
+      });
+  });
+  </script>
+{% endblock %}

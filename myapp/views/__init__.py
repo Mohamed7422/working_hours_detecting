@@ -1,4 +1,5 @@
 from .admin_view import (
+    admin_dashboard,
     admin_clients,
     admin_projects,
     admin_tasks,

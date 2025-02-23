@@ -476,3 +476,48 @@ tbody tr:nth-child(odd) {
 tbody tr:hover {
     background-color: #E5E7EB;
 }
+
+-------------------------------
+
+Requirements file
+Stable version
+
+asgiref==3.8.1
+certifi==2024.12.14
+charset-normalizer==3.4.1
+dj-database-url==2.3.0
+Django==5.1.4
+django-unfold==0.43.0
+idna==3.10
+psycopg==3.2.3
+psycopg2-binary==2.9.10
+python-decouple==3.8
+requests==2.32.3
+sqlparse==0.5.3
+typing_extensions==4.12.2
+tzdata==2024.2
+urllib3==2.3.0
+whitenoise==6.8.2
+---------------
+
+Vercel.json 
+
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "working_hours_detecting/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.12",
+        "maxLambdaSize": "15mb"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "working_hours_detecting/wsgi.py"
+    }
+  ]
+}

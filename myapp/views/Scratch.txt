@@ -1,0 +1,197 @@
+The Admin dashboard charts using plotly and pandas
+
+path url 
+
+ #path('custom-admin/dashboard/', admin_dashboard, name='admin_dashboard'),
+----------------
+ admin_view.py
+--------------
+
+on it make this 
+import plotly.express as px
+import pandas as pd
+from django.db import models 
+
+def admin_dashboard(request):
+    # 1. Fetch data for the charts
+    # Pie Chart: Ratio of Projects per Client
+    client_data = Client.objects.annotate(project_count=models.Count('project')).values('client_name', 'project_count')
+    client_df = pd.DataFrame(client_data)
+    pie_chart = px.pie(client_df, names='client_name', values='project_count', title='Projects per Client')
+
+    # Bar Chart: Project Timeframe (tasks per project)
+    project_data = Project.objects.annotate(task_count=models.Count('task')).values('project_name', 'task_count')
+    project_df = pd.DataFrame(project_data)
+    bar_chart = px.bar(project_df, x='project_name', y='task_count', title='Tasks per Project')
+
+    # Worklog Bar Chart: Tasks vs. Time Logged
+    worklog_data = WorkLog.objects.values('task__task_name', 'hours_logged')
+    worklog_df = pd.DataFrame(worklog_data)
+    worklog_chart = px.bar(worklog_df, x='task__task_name', y='hours_logged', title='Hours Logged per Task')
+
+    # 2. Convert charts to HTML
+    pie_chart_html = pie_chart.to_html(full_html=False)
+    bar_chart_html = bar_chart.to_html(full_html=False)
+    worklog_chart_html = worklog_chart.to_html(full_html=False)
+
+    # 3. Render the default Django admin dashboard template (index.html)
+    return render(request, 'admin_templates/admin_dashboard.html', {
+        'pie_chart': pie_chart_html,
+        'bar_chart': bar_chart_html,
+        'worklog_chart': worklog_chart_html,
+    })
+
+
+--------------------------
+
+on __init__.py
+
+ admin_dashboard,
+
+ -------------------------
+
+ admin_templates
+ ---------------------
+
+ admin_dashboard
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <div>
+        <h2>Projects per Client</h2>
+        {{ pie_chart|safe }}
+    </div>
+    <div>
+        <h2>Tasks per Project</h2>
+        {{ bar_chart|safe }}
+    </div>
+    <div>
+        <h2>Hours Logged per Task</h2>
+        {{ worklog_chart|safe }}
+    </div>
+</body>
+</html>
+
+----------------------
+
+
+
+admin view
+----------------
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Count, Sum
+from ..models import Client, Project, Task, Employee, WorkLog
+import json 
+from decimal import Decimal
+
+# Function to convert Decimal to float
+def convert_decimal(obj):
+    if isinstance(obj, Decimal):
+        return float(obj)  # Convert Decimal to float
+    raise TypeError("Type not serializable")
+ 
+def admin_dashboard(request):
+    # Pie Chart: Count of Projects per Client
+    client_data = list(
+        Client.objects.annotate(project_count=Count("project"))
+        .values("client_name", "project_count")
+    )
+    
+    # Bar Chart: Tasks per Project
+    project_data = list(
+        Project.objects.annotate(task_count=Count("task"))
+        .values("project_name", "task_count")
+    )
+    
+    # Worklog Chart: Total Hours Logged per Task
+    worklog_data = list(
+        WorkLog.objects.values("task__task_name")
+        .annotate(total_hours=Sum("hours_logged"))
+        .order_by("-total_hours")  # Sort by highest hours logged
+    )
+
+    context = {
+        "client_data": json.dumps(client_data),  # Convert to JSON string
+        "project_data": json.dumps(project_data),
+        "worklog_data": json.dumps(worklog_data, default=convert_decimal),
+    }
+
+    return render(request, "admin_templates/admin_dashboard.html", context)
+
+
+def admin_clients(request):
+    clients = Client.objects.all()
+    return render(request, 'admin_templates/admin_clients.html', {'clients': clients})
+
+def admin_projects(request):
+    projects = Project.objects.all()
+    return render(request, 'admin_templates/admin_projects.html', {'projects': projects})
+
+def admin_tasks(request):
+    tasks = Task.objects.all()
+    return render(request, 'admin_templates/admin_tasks.html', {'tasks': tasks})
+
+def admin_employees(request):
+    employees = Employee.objects.all()
+    return render(request, 'admin_templates/admin_employees.html', {'employees': employees})
+
+def admin_work_logs(request):
+    work_logs = WorkLog.objects.all()
+    return render(request, 'admin_templates/admin_work_logs.html', {'work_logs': work_logs})
+
+def edit_client(request, client_id):
+    client = get_object_or_404(Client, client_id=client_id)
+    if request.method == 'POST':
+        client.client_name = request.POST['client_name']
+        client.save()
+        return redirect('admin_clients')
+    return render(request, 'admin_templates/edit_client.html', {'client': client})
+
+
+# Admin: Delete a client
+def delete_client(request, client_id):
+    client = get_object_or_404(Client, client_id=client_id)
+    client.delete()
+    return redirect('admin_clients')
+    ----------------------
+
+    asgiref==3.8.1
+certifi==2024.12.14
+charset-normalizer==3.4.1
+datetime-truncate==1.1.1
+dj-database-url==2.3.0
+Django==5.1.4
+django-admin-charts==1.4.0
+django-bower==5.2.0
+django-memoize==2.3.1
+django-multiselectfield==0.1.13
+django-nvd3==0.10.1
+idna==3.10
+Jinja2==3.1.5
+MarkupSafe==3.0.2
+narwhals==1.25.2
+numpy==2.2.2
+packaging==24.2
+psycopg==3.2.3
+psycopg2-binary==2.9.10
+python-dateutil==2.9.0.post0
+python-decouple==3.8
+python-nvd3==0.16.0
+python-slugify==8.0.4
+pytz==2025.1
+requests==2.32.3
+six==1.17.0
+sqlparse==0.5.3
+text-unidecode==1.3
+typing_extensions==4.12.2
+tzdata==2024.2
+urllib3==2.3.0
+whitenoise==6.8.2
