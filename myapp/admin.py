@@ -1,9 +1,23 @@
 from django.contrib import admin
 from django.db.models import Count, Sum
+from django.utils.translation import gettext_lazy as _
 from .models import Client, Project, Task, Employee, WorkLog
 
 
 
+class ProjectListFilter(admin.SimpleListFilter):
+    title = _('Project')
+    parameter_name = 'project'
+
+    def lookups(self, request, model_admin):
+        projects = Project.objects.all()
+        return [(project.project_id, project.project_name) for project in projects]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(task__project=self.value())
+        return queryset
+    
 # Create your custom ClientAdmin
 class ClientAdmin(admin.ModelAdmin):
     change_list_template = "admin_templates/client_change_list.html"
@@ -25,30 +39,65 @@ class ClientAdmin(admin.ModelAdmin):
         return response
 
 class WorkLogAdmin(admin.ModelAdmin):
+
     # Using Django's built-in list_filter for related fields:
-    list_filter = ('employee', 'task__project')
+    
     change_list_template = "admin_templates/worklog_change_list.html"
 
-    def changelist_view(self, request, extra_context=None):
-        response = super().changelist_view(request, extra_context)
-        # Get filtered queryset from the changelist view (if present)
-        try:
-            qs = response.context_data["cl"].queryset
-        except (AttributeError, KeyError):
-            qs = self.model.objects.all()
-        
-        # Group the WorkLogs by task and sum hours_logged
-        chart_data = (
-            qs.values('task__task_name')
-              .annotate(total_time=Sum('hours_logged'))
-              .order_by('task__task_name')
-        )
-        tasks = [entry['task__task_name'] for entry in chart_data]
-        total_time = [float(entry['total_time']) for entry in chart_data]
+    list_display = ('employee', 'task', 'get_project', 'date_worked', 'hours_logged')
+    search_fields = ('employee__first_name', 'employee__last_name', 'task__task_name')
+    list_filter = ('employee', 'task', 'date_worked', 'is_overtime', ProjectListFilter)
+    
+    list_per_page = 5 # Show 5 worklogs per page
 
-        response.context_data['chart_tasks'] = tasks
-        response.context_data['chart_total_time'] = total_time
+    def get_project(self, obj):
+        return obj.task.project.project_name
+    
+    get_project.short_description = 'Project'
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        response = super().changelist_view(request, extra_context)
+        try:
+            cl = response.context_data['cl']
+
+        except(AttributeError, KeyError):
+            return response   
+
+        queryset = cl.queryset
+
+        task_chart_data = (
+           queryset.values('task__task_name')
+           .annotate(total_hours=Sum('hours_logged'))
+           .order_by('-total_hours')
+        )  
+       # response = super().changelist_view(request, extra_context)
+
+        tasks = [item['task__task_name'] for item in task_chart_data]
+        total_hours = [float(item['total_hours']) for item in task_chart_data]# Cast Decimal to float
+        
+
+        # Pie chart data (Total Hours per Employee)
+        employee_chart_data = (
+            queryset.values('employee__first_name', 'employee__last_name')
+            .annotate(total_hours=Sum('hours_logged'))
+            .order_by('-total_hours')
+        )
+
+        employee_labels = [f"{item['employee__first_name']} {item['employee__last_name']}" for item in employee_chart_data]
+        employee_hours = [float(item['total_hours']) for item in employee_chart_data]
+
+
+        # Inject chart data into context
+       
+        extra_context['chart_tasks'] = tasks
+        extra_context['chart_total_time'] = total_hours
+        extra_context['employee_labels'] = employee_labels
+        extra_context['employee_hours'] = employee_hours
+        
+        response.context_data.update(extra_context)
         return response
+       
     
 class ProjectAdmin(admin.ModelAdmin):
     change_list_template = "admin_templates/project_change_list.html"

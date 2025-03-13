@@ -166,8 +166,13 @@ def add_task(request):
             last_task = Task.objects.aggregate(max_id=Max('task_id'))
             last_task_id = last_task['max_id']
 
+            if last_task_id is None:
+                # If no tasks exist, start with T001
+                next_id = 1
+            else:
+                next_id = int(last_task_id[1:]) + 1   
              
-            next_id = int(last_task_id[1:])+1 #Stript T and increment
+            #next_id = int(last_task_id[1:])+1 #Stript T and increment
             task_id = f"T{str(next_id).zfill(3)}"
             
              

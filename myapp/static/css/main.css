@@ -25,7 +25,7 @@ body {
 .hero-section {
     background-color: var(--primary-purple);
     background-image: linear-gradient(135deg, #281362 0%, #A08FF6 100%);
-    padding: 4rem 2rem 8rem 2rem;
+    padding: 3rem 2rem 4rem 2rem;
     color: var(--text-light);
     position: relative;
     overflow: hidden;
@@ -69,18 +69,25 @@ body {
     z-index: 3;
 }
 .work-logger-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     background: var(--surface-card);
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: var(--shadow);
-    padding: 2rem;
+    padding: 20px;
     margin-bottom: 2rem;
 }
+
 /* Form Styles */
 .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 .form-group {
     margin-bottom: 1rem;
@@ -91,13 +98,13 @@ label {
     font-weight: 500;
     margin-bottom: 0.5rem;
 }
-input,
-select {
+input, select {
     width: 100%;
-    padding: 0.75rem;
-    border: 2px solid var(--purple-lighter);
-    border-radius: 12px;
-    font-size: 1rem;
+    padding: 10px;
+    border: 1px solid var(--purple-lighter);
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
     transition: all 0.3s ease;
 }
 input:focus,
@@ -110,7 +117,7 @@ select:focus {
 .button-group {
     display: flex;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 .btn {
     padding: 0.8rem 1.5rem;
@@ -147,6 +154,7 @@ select:focus {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(254, 106, 17, 0.3);
 }
+
 /* Table Styles */
 table {
     width: 100%;
@@ -188,31 +196,39 @@ td {
 .time-input-container {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 8px;
+    gap: 5px;
+    width: 100%;
+
 }
 .time-input {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
 }
 .time-field {
-    width: 60px;
-    padding: 5px;
-    border: 2px solid var(--purple-lighter);
-    border-radius: 12px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--purple-lighter);
+    border-radius: 5px;
     font-size: 14px;
     text-align: center;
+    box-sizing: border-box;
 }
 .time-separator {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
+    margin: 0 5px;
     color: var(--text-dark);
 }
 .time-input label {
     font-size: 12px;
     margin-bottom: 4px;
     color: var(--text-dark);
+}
+/* Consistent placeholder styling */
+.time-field::placeholder {
+    opacity: 0.8;
 }
 /* Hours Status */
 .hours-status {
@@ -221,7 +237,7 @@ td {
     padding: 1.5rem;
     border-radius: 12px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     margin-top: 2rem;
 }
 .hours-item {
@@ -239,6 +255,7 @@ td {
 }
 /* Submit Button */
 .submit-entries-btn {
+    position: sticky;
     background: var(--accent-orange);
     color: white;
     padding: 1rem 2rem;
@@ -246,7 +263,7 @@ td {
     font-size: 1rem;
     font-weight: 600;
     width: fit-content;
-    margin: 2rem auto 0;
+    margin: 1rem auto 0;
     border: none;
     transition: all 0.3s ease;
     display: flex;
@@ -275,29 +292,32 @@ td {
     margin-left: 0;
     margin-right: 0.5rem;
 }
-/* Responsive Styles */
+
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: 2.5rem;
-    }
-    .hero-subtitle {
-        font-size: 2rem;
-    }
-    .geometric-shape {
-        width: 150px;
-        height: 150px;
-    }
-    .main-content {
-        margin-top: -30px;
-    }
     .hero-section {
-        padding: 3rem 2rem 6rem 2rem;
+        padding: 2rem 1rem 3rem 1rem; /* further reduce on small screens */
+      }
+      .main-content {
+        margin-top: -30px; /* less overlap */
+      }
+      .work-logger-card {
+        padding: 15px;
+      }
+
+    .form-grid {
+        display: block; /* Stack form elements vertically */
     }
+
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
     .submit-entries-btn {
-        width: 100%;
-        font-size: 0.95rem;
+        font-size: 14px;
     }
 }
+
 /* Alertify Customization */
 .alertify-notifier .ajs-message.ajs-warning {
     background-color: var(--accent-orange);
