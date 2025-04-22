@@ -410,3 +410,18 @@ function updateHours() {
     document.getElementById("regularHours").textContent = regularHours.toFixed(1); // Show total hours
     document.getElementById("overtimeHours").textContent = overtimeHours.toFixed(1); // Show overtime hours
 }
+
+// auto‐resize comments textarea
+ 
+document.addEventListener('DOMContentLoaded', () => {
+    const ta = document.getElementById('commentsInput');
+    if (!ta) return;
+    const resize = () => {
+      ta.style.height = 'auto';
+      ta.style.height = `${ta.scrollHeight}px`;
+    };
+    ta.addEventListener('input', resize);
+    resize(); // kick off initial sizing
+  });
+ 
+  

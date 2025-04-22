@@ -329,3 +329,25 @@ td {
 .alertify-notifier .ajs-message.ajs-warning .fas {
     margin-right: 8px;
 }
+
+.comment-field {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+    border: 1px solid var(--purple-lighter);
+    border-radius: 5px;
+    resize: vertical;           /* users can drag to resize */
+    min-height: 4rem;           /* give a comfortable default height */
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+  
+  /* Auto‑grow the textarea as the user types */
+  .comment-field:focus {
+    outline: none;
+    border-color: var(--purple-light);
+    box-shadow: 0 0 0 3px rgba(160, 143, 246, 0.2);
+  }
+  
+   
