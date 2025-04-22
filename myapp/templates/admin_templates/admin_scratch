@@ -3,7 +3,6 @@ from django.db.models import Count, Sum
 from django.utils.translation import gettext_lazy as _
 from .models import Client, Project, Task, Employee, WorkLog
 
- 
 
 # it's a filter for the projects in Filter
 class ProjectListFilter(admin.SimpleListFilter):
@@ -150,3 +149,34 @@ admin.site.register(Client, ClientAdmin)
 #admin.site.register(Project)
 admin.site.register(Task)
 admin.site.register(Employee,EmployeeAdmin)
+
+#--------------------------------------------------------------------------------#
+# base_site.html
+
+"""{% extends "admin/base.html" %}
+{% load static i18n %}
+
+{% block title %}Squad Admin{% endblock %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'admin/css/custom_admin.css' %}">
+    <script defer src="{% static 'admin/js/theme-toggle.js' %}"></script>
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}" style="color: white; text-decoration: none;">
+            Squad Admin
+        </a>
+    </h1>
+{% endblock %}
+
+{% block nav-global %}
+    <div class="custom-navbar">
+        <button id="theme-toggle" class="toggle-button">🌙 Dark Mode</button>
+        <a href="{% url 'admin:index' %}" class="nav-link">Dashboard</a>
+        <a href="{% url 'admin:app_list' 'myapp' %}" class="nav-link">Manage Data</a>
+        <a href="#" class="nav-link">Settings</a>
+    </div>
+{% endblock %}
+"""

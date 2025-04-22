@@ -27,7 +27,8 @@ from .views import (
     populate_tasks,
     clickup_task_created,
     clickup_task_updated,
-    update_project_client
+    update_project_client,
+    daily_missing_report
      
 )
 
@@ -40,11 +41,14 @@ urlpatterns = [
     path('validate_employee/',validate_employee, name='validate_employee'),
 
     path('add-sample-employees/', add_sample_employees, name='add_sample_employees'),
+    path("daily_missing_report/", daily_missing_report, name="daily_missing_report"),
+
     path("populate-projects/", populate_projects, name="populate_projects"),
     path("populate-tasks/", populate_tasks, name="populate_tasks"),
     path("populate-projectcreated/", clickup_task_created, name="clickup_task_created"),
     path("populate-projectupdated/", clickup_task_updated, name="clickup_task_updated"),
     path("populate-clientupdated/", update_project_client, name="update_project_client"),
+
     
 
 

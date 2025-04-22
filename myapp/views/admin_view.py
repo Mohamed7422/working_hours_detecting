@@ -3,6 +3,8 @@ from django.db.models import Count, Sum
 from ..models import Client, Project, Task, Employee, WorkLog
 import json 
 from decimal import Decimal
+from datetime import date
+from django.http import JsonResponse
 
 # Function to convert Decimal to float
 def convert_decimal(obj):

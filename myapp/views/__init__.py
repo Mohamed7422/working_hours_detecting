@@ -20,7 +20,8 @@ from .employee_view import (
 
 from .common_views import(
     home_page,
-    validate_employee
+    validate_employee,
+    daily_missing_report
 )
 
  

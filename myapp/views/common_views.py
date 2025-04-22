@@ -2,7 +2,9 @@
 from django.shortcuts import render, redirect
 from ..models import Employee
 from django.urls import reverse
-
+from ..models import  Employee, WorkLog
+from datetime import date
+from django.http import JsonResponse
 
 def home_page(request):
     return render(request,"main_home.html")
@@ -21,3 +23,21 @@ def validate_employee(request):
                 "error": "Invalid Member ID. Please try again."
             })
     return render(request, "main_home.html")
+
+# Daily Missing Report
+def daily_missing_report(request):
+    today = date.today()
+    logged_ids = (
+        WorkLog.objects
+               .filter(date_worked = today)
+               .values_list("employee__employee_id", flat=True)
+               .distinct()
+    )
+
+    missing = Employee.objects.exclude(employee_id__in=logged_ids)
+    
+    data = [
+        {"employee_id": e.employee_id, "name":f"{e.first_name} {e.last_name}"}
+        for e in missing
+    ]
+    return JsonResponse({"missing": data})
