@@ -45,9 +45,11 @@ class WorkLogAdmin(admin.ModelAdmin):
     
     change_list_template = "admin_templates/worklog_change_list.html"
 
+    date_hierarchy = 'date_worked'
     list_display = ('employee', 'task', 'get_project', 'date_worked', 'hours_logged')
     search_fields = ('employee__first_name', 'employee__last_name', 'task__task_name')
-    list_filter = ('employee', 'task', 'date_worked', 'is_overtime', ProjectListFilter)
+    list_filter = ('employee', 'task', 'date_worked', 'is_overtime',
+                    ProjectListFilter)
     
     list_per_page = 5 # Show 5 worklogs per page
 

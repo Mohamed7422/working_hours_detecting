@@ -28,7 +28,8 @@ from .views import (
     clickup_task_created,
     clickup_task_updated,
     update_project_client,
-    daily_missing_report
+    daily_missing_report,
+    daily_worklog_view
      
 )
 
@@ -69,6 +70,9 @@ urlpatterns = [
     path('employee/add_task/', add_task, name='add_task'),
     path('employee/submit_entries/',submitEntries,name= 'submitEntries'),
     path('employee/get_total_hours/', get_total_hours, name='get_total_hours'),
+    
 
+    #Report URLs
+    path('daily-worklogs/', daily_worklog_view, name='daily_worklogs'),
 
 ]

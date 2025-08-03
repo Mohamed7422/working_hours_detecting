@@ -21,7 +21,8 @@ from .employee_view import (
 from .common_views import(
     home_page,
     validate_employee,
-    daily_missing_report
+    daily_missing_report,
+    daily_worklog_view
 )
 
  

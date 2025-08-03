@@ -5,6 +5,7 @@ from django.urls import reverse
 from ..models import  Employee, WorkLog
 from datetime import date
 from django.http import JsonResponse
+from django.utils import timezone
 
 def home_page(request):
     return render(request,"main_home.html")
@@ -41,3 +42,18 @@ def daily_missing_report(request):
         for e in missing
     ]
     return JsonResponse({"missing": data})
+
+def daily_worklog_view(request):
+    """
+    Renders “Daily Worklog” page showing all WorkLog entries for today.
+    """
+    today = timezone.localdate()
+    # Fetch all worklogs where date_worked == today
+    worklogs = WorkLog.objects.filter(date_worked=today).select_related(
+        'employee', 'task', 'task__project'
+    )
+
+    return render(request, 'daily_worklogs.html', {
+        'worklogs': worklogs,
+        'today': today,
+    })

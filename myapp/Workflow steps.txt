@@ -1,0 +1,37 @@
+ClickUp → Backend
+
+You’ve set up a ClickUp webhook (via /team/{team_id}/webhook) subscribing to taskCreated on a specific list_id.
+
+Incoming POSTs hit your populate-projectcreated/ Django endpoint, which persists Projects/Tasks.
+
+Employee-facing Form
+
+On page load, Django serves a template with dropdowns populated from your Client → Project → Task models.
+
+The user picks date, project, task, hours/minutes (with placeholders & responsive layout), and comments (now in a multi-line <textarea>).
+
+Submitting bundles up entries, POSTs them to your WorkLog view, which writes to the WorkLog table.
+
+Admin Dashboard
+
+Registered in admin.py via a WorkLogAdmin subclass:
+
+list_filter now includes Project, not just overtime.
+
+list_per_page = 5 for pagination.
+
+changelist_view harvests the filtered queryset and passes two datasets to the template:
+
+Bar-chart: Total hours logged per task.
+
+Pie/doughnut: Hours distribution per employee.
+
+Your custom change_list.html (using Chart.js) lays bar & pie side-by-side in a fixed-height, scrollable container with clear padding, frozen X-axis, and per-page pagination buttons.
+
+Slack Notifications via Zapier
+
+Trigger: “Schedule by Zapier” at two times (7 pm for group A, 2 am for group B).
+
+Action: GET request to your /daily_missing_report/ endpoint, which returns JSON [ { emp_id, name }, … ] for anyone who hasn’t logged today.
+
+Loop: Zapier iterates, looks up each Slack ID in a Google Sheet, then sends a direct message to each employee.
